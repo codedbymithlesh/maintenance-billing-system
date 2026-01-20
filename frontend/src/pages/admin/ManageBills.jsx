@@ -12,6 +12,7 @@ import {
   CheckCircle2,
   Clock
 } from 'lucide-react';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const ManageBills = () => {
   const { user } = useContext(AuthContext);
@@ -53,19 +54,19 @@ const ManageBills = () => {
   }, []);
 
   const fetchBills = async () => {
-    const { data } = await axios.get('http://localhost:5000/api/admin/bills', config);
+    const { data } = await axios.get(`${API_URL}/api/admin/bills`, config);
     setBills(data);
   };
 
   const fetchResidents = async () => {
-    const { data } = await axios.get('http://localhost:5000/api/admin/residents', config);
+    const { data } = await axios.get(`${API_URL}/api/admin/residents`, config);
     setResidents(data);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/admin/bills', formData, config);
+      await axios.post(`${API_URL}/api/admin/bills`, formData, config);
       setShowModal(false);
       fetchBills();
       // Reset form but keep month/year

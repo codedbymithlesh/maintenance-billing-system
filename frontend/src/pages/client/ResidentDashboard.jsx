@@ -15,6 +15,7 @@ import {
   AlertCircle,
   Wallet
 } from 'lucide-react';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const ResidentDashboard = () => {
   const [bills, setBills] = useState([]);
@@ -30,7 +31,7 @@ const ResidentDashboard = () => {
 
   const fetchBills = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/api/resident/bills', config);
+      const { data } = await axios.get(`${API_URL}/api/resident/bills`, config);
       setBills(data);
     } catch (err) {
       console.error(err);
@@ -42,9 +43,9 @@ const ResidentDashboard = () => {
     
     setPaymentLoading(billId);
     try {
-      await axios.post('http://localhost:5000/api/resident/pay', { billId }, config);
+      await axios.post(`${API_URL}/api/resident/pay`, { billId }, config);
       alert('Payment Successful!'); 
-      fetchBills(); // Refresh data
+      fetchBills();
     } catch (err) {
       alert(err.response?.data?.message || 'Payment failed');
     } finally {

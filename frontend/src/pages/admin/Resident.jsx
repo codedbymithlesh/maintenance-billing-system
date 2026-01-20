@@ -12,6 +12,7 @@ import {
   Lock, 
   Users 
 } from "lucide-react";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Resident = () => {
   const { user } = useContext(AuthContext);
@@ -38,7 +39,7 @@ const Resident = () => {
   const fetchResidents = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:5000/api/admin/residents",
+        `${API_URL}/api/admin/residents`,
         config
       );
       setResidents(data);
@@ -57,7 +58,7 @@ const Resident = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/auth/register", formData);
+      await axios.post(`${API_URL}/api/auth/register`, formData);
       
       // Native Alert as requested
       alert("Resident added successfully!");

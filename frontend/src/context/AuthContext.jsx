@@ -1,14 +1,18 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState } from 'react';
 import axios from 'axios';
+
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('userInfo')));
 
+  // Login Function
   const login = async (email, password) => {
     const config = { headers: { 'Content-Type': 'application/json' } };
-    const { data } = await axios.post('http://localhost:5000/api/auth/login', { email, password }, config);
+    const { data } = await axios.post(`${API_URL}/api/auth/login`, { email, password }, config);
     setUser(data);
     localStorage.setItem('userInfo', JSON.stringify(data));
     return data;
@@ -16,7 +20,15 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     const config = { headers: { 'Content-Type': 'application/json' } };
-    const { data } = await axios.post('http://localhost:5000/api/auth/register', userData, config);
+
+    let url = `${API_URL}/api/auth/register`; 
+    
+    if (userData.role === 'admin') {
+      url = `${API_URL}/api/auth/register-admin`; 
+    }
+
+    const { data } = await axios.post(url, userData, config);
+    
     setUser(data);
     localStorage.setItem('userInfo', JSON.stringify(data));
     return data;

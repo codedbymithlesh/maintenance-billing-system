@@ -15,6 +15,9 @@ import {
   Clock
 } from "lucide-react";
 
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
     totalReceived: 0,
@@ -35,7 +38,7 @@ const AdminDashboard = () => {
           },
         };
         const { data } = await axios.get(
-          "http://localhost:5000/api/admin/stats",
+          `${API_URL}/api/admin/stats`,
           config
         );
         setStats(data);
@@ -173,9 +176,9 @@ const AdminDashboard = () => {
                             <span className="font-medium text-gray-900 block">
                               {pay.residentId?.name || "Unknown"}
                             </span>
-                            {/* <span className="text-xs text-gray-500">
+                            <span className="text-xs text-gray-500">
                                Flat: {pay.residentId?.flatNumber || "N/A"}
-                            </span> */}
+                            </span>
                           </div>
                         </div>
                       </td>
