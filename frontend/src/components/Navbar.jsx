@@ -39,7 +39,8 @@ const Navbar = () => {
           <div className="flex items-center">
             <Link to="/" className="flex items-center gap-2 group">
               <span className="text-xl font-bold text-gray-800 tracking-tight">
-                SnehSagar<span className="text-emerald-700"> Society</span>
+                {/* SnehSagar<span className="text-emerald-700"> Society</span> */}
+               <img className='w-10' src="../../public/logo.svg" alt="" /> 
               </span>
             </Link>
           </div>
