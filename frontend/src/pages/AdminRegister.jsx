@@ -97,9 +97,12 @@ const Register = () => {
                 <Phone className="absolute left-3 top-3.5 text-gray-400 group-focus-within:text-emerald-500 transition-colors" size={18} />
                 <input 
                   name="contact" 
-                  type="number" 
-                  placeholder="9876543210" 
+                  type="tel" 
+                  placeholder="Mobile Number" 
                   required 
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  maxLength={10}
                   className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
                   onChange={handleChange} 
                 />

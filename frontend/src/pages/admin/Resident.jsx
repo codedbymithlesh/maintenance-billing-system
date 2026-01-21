@@ -217,10 +217,13 @@ const Resident = () => {
                     <div className="relative">
                         <Phone className="absolute left-3 top-3.5 text-gray-400" size={18} />
                         <input
-                            type="number"
+                            type="tel"
                             name="contact"
                             placeholder="Mobile Number"
                             required
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            maxLength={10}
                             className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
                             onChange={handleChange}
                             value={formData.contact}
