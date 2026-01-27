@@ -10,14 +10,14 @@ import {
   User, 
   IndianRupee,
   CheckCircle2,
-  Clock
+  Clock,
+  Loader2
 } from 'lucide-react';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const ManageBills = () => {
   const { user } = useContext(AuthContext);
 
-  // Current Date Logic
   const currentDate = new Date();
   const currentMonth = currentDate.toLocaleString('default', { month: 'long' });
   const currentYear = currentDate.getFullYear();
@@ -25,8 +25,10 @@ const ManageBills = () => {
   const [bills, setBills] = useState([]);
   const [residents, setResidents] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  
+  // Fix: Button ke liye alag loading state banaya
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Form Data
   const [formData, setFormData] = useState({
     residentId: '',
     amount: '',
@@ -44,6 +46,7 @@ const ManageBills = () => {
 
   useEffect(() => {
     const loadData = async () => {
+      // Fix: Yaha se setIsLoading hata diya taki page load pe button effect na ho
       try {
         await Promise.all([fetchBills(), fetchResidents()]);
       } catch (error) {
@@ -65,15 +68,17 @@ const ManageBills = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true); // Sirf form submit pe loading true hoga
     try {
       await axios.post(`${API_URL}/api/admin/bills`, formData, config);
       setShowModal(false);
       fetchBills();
-      // Reset form but keep month/year
       setFormData(prev => ({...prev, residentId: '', amount: '', dueDate: ''}));
     } catch (error) {
       console.error(error);
       alert("Failed to create bill");
+    } finally {
+      setIsSubmitting(false); // Request khatam hone pe loading band
     }
   };
 
@@ -81,7 +86,6 @@ const ManageBills = () => {
     <div className="min-h-screen bg-gray-50/50 p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
         
-        {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div>
             <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Manage Bills</h2>
@@ -97,7 +101,6 @@ const ManageBills = () => {
             </button>
         </div>
 
-        {/* Table Card */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
@@ -180,12 +183,10 @@ const ManageBills = () => {
           </div>
         </div>
 
-        {/* Modal Overlay */}
         {showModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm transition-all">
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg transform transition-all scale-100">
               
-              {/* Modal Header */}
               <div className="flex justify-between items-center p-6 border-b border-gray-100">
                 <h3 className="text-xl font-bold text-gray-800">Generate New Bill</h3>
                 <button 
@@ -196,10 +197,8 @@ const ManageBills = () => {
                 </button>
               </div>
 
-              {/* Modal Form */}
               <form onSubmit={handleSubmit} className="p-6 space-y-5">
                 
-                {/* Resident Select */}
                 <div className="space-y-1.5">
                   <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
                     <User size={16} className="text-emerald-500"/> Select Resident
@@ -210,7 +209,7 @@ const ManageBills = () => {
                     value={formData.residentId}
                     onChange={(e) => setFormData({ ...formData, residentId: e.target.value })}
                   >
-                    <option value="" selected disabled>Choose a resident...</option>
+                    <option value="" disabled>Choose a resident...</option>
                     {residents.map((r) => (
                       <option key={r._id} value={r._id}>
                         {r.name} — Flat {r.flatNumber}
@@ -219,7 +218,6 @@ const ManageBills = () => {
                   </select>
                 </div>
 
-                {/* Amount Input */}
                 <div className="space-y-1.5">
                   <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
                     <IndianRupee size={16} className="text-emerald-500"/> Amount
@@ -234,7 +232,6 @@ const ManageBills = () => {
                   />
                 </div>
 
-                {/* Month & Year Grid */}
                 <div className="grid grid-cols-2 gap-4">
                    <div className="space-y-1.5">
                     <label className="text-sm font-medium text-gray-700">Month</label>
@@ -262,7 +259,6 @@ const ManageBills = () => {
                    </div>
                 </div>
 
-                {/* Due Date */}
                 <div className="space-y-1.5">
                   <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
                     <Clock size={16} className="text-emerald-500"/> Due Date
@@ -276,13 +272,20 @@ const ManageBills = () => {
                   />
                 </div>
 
-                {/* Buttons */}
                 <div className="flex gap-3 pt-4">
                   <button
+                    disabled={isSubmitting} // Use new state
                     type="submit"
-                    className="flex-1 px-4 py-3 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 font-medium shadow-lg shadow-emerald-600/20 transition-all"
+                    className="flex-1 px-4 py-3 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 font-medium shadow-lg shadow-emerald-600/20 transition-all flex justify-center items-center gap-2"
                   >
-                    Generate Bill
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 size={20} className="animate-spin" />
+                        <span>Generating...</span>
+                      </>
+                    ) : (
+                      <span>Generate</span>
+                    )}
                   </button>
                 </div>
               </form>
