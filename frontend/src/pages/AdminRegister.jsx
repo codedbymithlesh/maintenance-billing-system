@@ -37,21 +37,23 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50/50 p-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+    // MAIN CONTAINER: Dark Slate Background
+    <div className="min-h-screen flex items-center justify-center bg-slate-950 p-4">
+      {/* Card: Dark Slate, Solid Border */}
+      <div className="max-w-md w-full bg-slate-900 rounded-2xl shadow-xl border border-slate-800 overflow-hidden">
         
         {/* Header Section */}
-        <div className="bg-gray-50/50 p-8 pb-0 text-center">
-          <div className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-emerald-600 text-white mb-4 shadow-lg shadow-blue-600/20">
+        <div className="bg-slate-900/30 p-8 pb-0 text-center">
+          <div className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-blue-600 text-white mb-4 shadow-lg shadow-blue-900/20">
             <LogIn size={24} />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Admin Registration</h2>
-          <p className="text-gray-500 mt-2 text-sm">Create an account to manage SnehSagar Society</p>
+          <h2 className="text-2xl font-bold text-white tracking-tight">Admin Registration</h2>
+          <p className="text-slate-400 mt-2 text-sm">Create an account to manage SnehSagar Society</p>
         </div>
 
         <div className="p-8">
           {error && (
-            <div className="mb-6 bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-xl text-sm flex items-start gap-2">
+            <div className="mb-6 bg-red-900/20 border border-red-900/50 text-red-400 px-4 py-3 rounded-xl text-sm flex items-start gap-2">
               <AlertCircle size={18} className="mt-0.5 shrink-0"/>
               <span>{error}</span>
             </div>
@@ -61,14 +63,14 @@ const Register = () => {
             
             {/* Name Input */}
             <div className="space-y-1">
-              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider ml-1">Full Name</label>
+              <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">Full Name</label>
               <div className="relative group">
-                <User className="absolute left-3 top-3.5 text-gray-400 group-focus-within:text-emerald-500 transition-colors" size={18} />
+                <User className="absolute left-3 top-3.5 text-slate-500 group-focus-within:text-blue-500 transition-colors" size={18} />
                 <input 
                   name="name" 
                   placeholder="Enter your full name" 
                   required 
-                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                  className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all"
                   onChange={handleChange} 
                 />
               </div>
@@ -76,15 +78,15 @@ const Register = () => {
             
             {/* Email Input */}
             <div className="space-y-1">
-              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider ml-1">Email Address</label>
+              <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">Email Address</label>
               <div className="relative group">
-                <Mail className="absolute left-3 top-3.5 text-gray-400 group-focus-within:text-emerald-500 transition-colors" size={18} />
+                <Mail className="absolute left-3 top-3.5 text-slate-500 group-focus-within:text-blue-500 transition-colors" size={18} />
                 <input 
                   name="email" 
                   type="email" 
                   placeholder="admin@example.com" 
                   required 
-                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all lowercase"
+                  className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all lowercase"
                   onChange={handleChange} 
                 />
               </div>
@@ -92,9 +94,9 @@ const Register = () => {
 
             {/* Mobile Input */}
             <div className="space-y-1">
-              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider ml-1">Mobile Number</label>
+              <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">Mobile Number</label>
               <div className="relative group">
-                <Phone className="absolute left-3 top-3.5 text-gray-400 group-focus-within:text-emerald-500 transition-colors" size={18} />
+                <Phone className="absolute left-3 top-3.5 text-slate-500 group-focus-within:text-blue-500 transition-colors" size={18} />
                 <input 
                   name="contact" 
                   type="tel" 
@@ -103,7 +105,7 @@ const Register = () => {
                   inputMode="numeric"
                   pattern="[0-9]*"
                   maxLength={10}
-                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
+                  className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
                   onChange={handleChange} 
                 />
               </div>
@@ -111,15 +113,15 @@ const Register = () => {
             
             {/* Password Input */}
             <div className="space-y-1">
-              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider ml-1">Password</label>
+              <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">Password</label>
               <div className="relative group">
-                <Lock className="absolute left-3 top-3.5 text-gray-400 group-focus-within:text-emerald-500 transition-colors" size={18} />
+                <Lock className="absolute left-3 top-3.5 text-slate-500 group-focus-within:text-blue-500 transition-colors" size={18} />
                 <input 
                   name="password" 
                   type="password" 
                   placeholder="Create a strong password" 
                   required 
-                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                  className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all"
                   onChange={handleChange} 
                 />
               </div>
@@ -127,16 +129,16 @@ const Register = () => {
             
             <button 
               type="submit" 
-              className="w-full mt-2 bg-emerald-600 text-white py-3 rounded-xl font-semibold hover:bg-emerald-700 shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 transition-all active:scale-95"
+              className="w-full mt-2 bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 shadow-lg shadow-blue-900/20 flex items-center justify-center gap-2 transition-all active:scale-95"
             >
               Create Account <ArrowRight size={18} />
             </button>
           </form>
           
           <div className="mt-6 text-center">
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-slate-500">
               Already have an account?{' '}
-              <Link to="/" className="text-emerald-600 font-semibold hover:text-emerald-700 transition-colors">
+              <Link to="/" className="text-blue-500 font-semibold hover:text-blue-400 transition-colors">
                 Sign In
               </Link>
             </p>

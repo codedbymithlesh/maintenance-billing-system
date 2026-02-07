@@ -42,81 +42,78 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex bg-gray-50 text-gray-900 font-sans selection:bg-emerald-100">
+    // MAIN CONTAINER: Dark Slate Background
+    <div className="min-h-screen flex bg-slate-950 text-slate-200 font-sans">
       
-      {/* LEFT SIDE: Branding & Info */}
-      <div className="hidden lg:flex w-1/2 bg-emerald-900 relative overflow-hidden flex-col justify-between p-16 text-white">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-emerald-800 via-emerald-900 to-gray-900 opacity-90"></div>
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-emerald-500 rounded-full mix-blend-overlay filter blur-3xl opacity-20 animate-pulse"></div>
-        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-teal-400 rounded-full mix-blend-overlay filter blur-3xl opacity-20 animate-pulse delay-1000"></div>
-
+      {/* LEFT SIDE: Solid Dark Panel with Right Border */}
+      <div className="hidden lg:flex w-1/2 bg-slate-900 border-r border-slate-800 relative flex-col justify-between p-16">
+        
         {/* Brand Header */}
         <div className="relative z-10 animate-fade-in-down">
-          <div className="flex items-center gap-3 text-emerald-400 mb-6">
-            <div className="p-2 bg-white/10 rounded-lg backdrop-blur-sm">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 bg-blue-600 rounded-lg text-white">
               <Building2 size={28} />
             </div>
-            <span className="text-xl font-bold tracking-widest uppercase">SnehSagar Society</span>
+            <span className="text-xl text-slate-100 font-bold tracking-widest uppercase">SnehSagar Society</span>
           </div>
           
-          <h1 className="text-5xl font-extrabold leading-tight mb-6">
+          <h1 className="text-5xl text-white font-extrabold leading-tight mb-6">
             Simplifying <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 to-teal-400">
-              Community Living
-            </span>
+            Community Living
           </h1>
-          <p className="text-emerald-100/80 text-lg max-w-md leading-relaxed font-light">
+          <p className="text-slate-400 text-lg max-w-md leading-relaxed">
             Experience seamless society management. Pay bills, raise complaints, and stay connected with your neighbors.
           </p>
         </div>
 
-        {/* Feature Cards */}
+        {/* Feature Cards: Darker with Borders */}
         <div className="relative z-10 grid gap-5 animate-fade-in-up delay-200">
-          <div className="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 backdrop-blur-md hover:bg-white/10 transition-colors cursor-default">
-            <div className="p-3 bg-emerald-500/20 rounded-xl text-emerald-300">
+          <div className="flex items-center gap-4 bg-slate-950 p-4 rounded-xl border border-slate-800 hover:border-blue-600/50 transition-colors cursor-default">
+            <div className="p-3 bg-slate-900 rounded-lg text-blue-500 border border-slate-800">
               <ShieldCheck size={24} />
             </div>
             <div>
-              <h3 className="font-semibold text-white">Secure Access</h3>
-              <p className="text-sm text-emerald-200/60">Role-based secure login environment</p>
+              <h3 className="font-semibold text-slate-200">Secure Access</h3>
+              <p className="text-sm text-slate-500">Role-based secure login environment</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 backdrop-blur-md hover:bg-white/10 transition-colors cursor-default">
-            <div className="p-3 bg-emerald-500/20 rounded-xl text-emerald-300">
+          <div className="flex items-center gap-4 bg-slate-950 p-4 rounded-xl border border-slate-800 hover:border-blue-600/50 transition-colors cursor-default">
+            <div className="p-3 bg-slate-900 rounded-lg text-blue-500 border border-slate-800">
               <Zap size={24} />
             </div>
             <div>
-              <h3 className="font-semibold text-white">Fast & Reliable</h3>
-              <p className="text-sm text-emerald-200/60">Optimized performance for all devices</p>
+              <h3 className="font-semibold text-slate-200">Fast & Reliable</h3>
+              <p className="text-sm text-slate-500">Optimized performance for all devices</p>
             </div>
           </div>
         </div>
 
-        <div className="relative z-10 text-xs text-emerald-500/50 font-medium">
+        <div className="relative z-10 text-xs text-slate-600 font-medium">
            &copy; {new Date().getFullYear()} SnehSagar Management System
         </div>
       </div>
 
       {/* RIGHT SIDE: Login Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-12 bg-white">
-        <div className="max-w-[400px] w-full animate-fade-in p-5 rounded-2xl shadow-md bg-gray-50">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-12 bg-slate-950">
+        
+        {/* Card: Dark Slate, Solid Border */}
+        <div className="max-w-md w-full animate-fade-in p-8 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl">
           
           {/* Mobile Logo */}
           <div className="lg:hidden flex justify-center mb-8">
-            <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-white shadow-lg shadow-emerald-500/30">
+            <div className="inline-flex items-center justify-center h-14 w-14 rounded-xl bg-blue-600 text-white">
               <Building2 size={28} />
             </div>
           </div>
 
           <div className="mb-10">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2 tracking-tight">Welcome back</h2>
-            <p className="text-gray-500 text-sm">Enter your credentials to access your account.</p>
+            <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">Welcome back</h2>
+            <p className="text-slate-500 text-sm">Enter your credentials to access your account.</p>
           </div>
 
           {error && (
-            <div className="mb-6 bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-xl text-sm flex items-start gap-2 animate-pulse">
+            <div className="mb-6 bg-red-900/20 border border-red-900/50 text-red-400 px-4 py-3 rounded-xl text-sm flex items-start gap-2 animate-pulse">
               <AlertCircle size={18} className="mt-0.5 shrink-0"/>
               <span className="font-medium">{error}</span>
             </div>
@@ -124,16 +121,16 @@ const Login = () => {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-1.5">
-              <label className="text-sm font-semibold text-gray-700 ml-1">Email</label>
+              <label className="text-sm font-semibold text-slate-300 ml-1">Email</label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400 group-focus-within:text-emerald-600 transition-colors" />
+                  <Mail className="h-5 w-5 text-slate-500 group-focus-within:text-blue-500 transition-colors" />
                 </div>
                 <input
                   type="email"
                   placeholder="name@example.com"
                   required
-                  className="block w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 focus:bg-white transition-all duration-200"
+                  className="block w-full pl-11 pr-4 py-3.5 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 placeholder-slate-600 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all duration-200"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -142,30 +139,27 @@ const Login = () => {
 
             <div className="space-y-1.5">
               <div className="flex justify-between items-center ml-1">
-                <label className="text-sm font-semibold text-gray-700">Password</label>
-                {/* <a href="#" className="text-xs font-medium text-emerald-600 hover:text-emerald-700 transition-colors">Forgot password?</a> */}
+                <label className="text-sm font-semibold text-slate-300">Password</label>
               </div>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400 group-focus-within:text-emerald-600 transition-colors" />
+                  <Lock className="h-5 w-5 text-slate-500 group-focus-within:text-blue-500 transition-colors" />
                 </div>
                 <input
                   type="password"
                   placeholder="••••••••"
                   required
-                  className="block w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 focus:bg-white transition-all duration-200"
+                  className="block w-full pl-11 pr-4 py-3.5 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 placeholder-slate-600 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all duration-200"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
             </div>
 
-            {/* Remember Me removed from here */}
-
             <button 
               type="submit" 
               disabled={isLoading}
-              className="w-full bg-emerald-600 text-white py-3.5 rounded-xl font-bold hover:bg-emerald-700 focus:ring-4 focus:ring-emerald-600/20 shadow-lg shadow-emerald-600/20 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-all duration-200 transform active:scale-[0.98]"
+              className="w-full bg-blue-600 text-white py-3.5 rounded-xl font-bold hover:bg-blue-700 focus:ring-4 focus:ring-blue-900 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-all duration-200 transform active:scale-[0.98]"
             >
               {isLoading ? (
                 <>
@@ -179,7 +173,6 @@ const Login = () => {
               )}
             </button>
           </form>
-
           
         </div>
       </div>
