@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigation } from 'react-router-dom';
+import React, { useContext, useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthContext, AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
@@ -9,9 +9,7 @@ import ManageBills from './pages/admin/ManageBills';
 import ResidentDashboard from './pages/client/ResidentDashboard';
 import Resident from './pages/admin/Resident';
 import NotFound from './pages/NotFound';
-import Loading from './pages/Loading'
-
-
+import Loading from './pages/Loading';
 
 const ProtectedRoute = ({ children, role }) => {
   const { user } = useContext(AuthContext);
@@ -22,21 +20,49 @@ const ProtectedRoute = ({ children, role }) => {
 
 const AppRoutes = () => {
   const { user } = useContext(AuthContext);
+  const [isPageLoading, setIsPageLoading] = useState(true);
 
-  const navigation = useNavigation;
+  // Yeh effect tab chalega jab saara content load ho jayega
+  useEffect(() => {
+    const handleLoad = () => {
+      setIsPageLoading(false);
+    };
 
-  if(navigation.state === "loading"){
-    return <Loading />
-  };
+    if (document.readyState === 'complete') {
+      setIsPageLoading(false);
+    } else {
+      window.addEventListener('load', handleLoad);
+      // Safety timeout: Agar load event late ho toh 2 sec baad hide kar dega
+      const timer = setTimeout(() => setIsPageLoading(false), 2000); 
+      
+      return () => {
+        window.removeEventListener('load', handleLoad);
+        clearTimeout(timer);
+      };
+    }
+  }, []);
+
+  // Jab tak loading true hai, sirf Loading component dikhega
+  if (isPageLoading) {
+    return <Loading />;
+  }
 
   return (
     <Router>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Login />} />
+        {/* Default Route Logic */}
+        <Route path="/" element={
+          user ? (
+            <Navigate to={user.role === 'admin' ? "/admin" : "/resident"} />
+          ) : (
+            <Login />
+          )
+        } />
+
         <Route path="/api/auth/admin/signup" element={<AdminRegister />} />
-        <Route path="*" element={<NotFound />} />
         
+        {/* Admin Routes */}
         <Route path="/admin" element={
           <ProtectedRoute role="admin">
             <AdminDashboard />
@@ -47,27 +73,20 @@ const AppRoutes = () => {
             <ManageBills />
           </ProtectedRoute>
         } />
-
         <Route path="/admin/residents" element={
           <ProtectedRoute role="admin">
             <Resident />
           </ProtectedRoute>
         } />
 
-
+        {/* Resident Routes */}
         <Route path="/resident" element={
           <ProtectedRoute role="resident">
             <ResidentDashboard />
           </ProtectedRoute>
         } />
 
-        <Route path="/" element={
-          user ? (
-            <Navigate to={user.role === 'admin' ? "/admin" : "/resident"} />
-          ) : (
-            <Navigate to="/login" />
-          )
-        } />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

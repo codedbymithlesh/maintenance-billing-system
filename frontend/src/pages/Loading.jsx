@@ -1,44 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Building2 } from 'lucide-react';
 
 const Loader = () => {
+  // Optional: Text changing effect for engagement
+
   return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-slate-950">
+    <div className="fixed inset-0 z-100 flex flex-col items-center justify-center bg-slate-950  from-slate-900 to-slate-950">
       
-      {/* Animation Container */}
-      <div className="relative flex items-center justify-center mb-8">
+      <div className="relative flex items-center justify-center mb-10">
         
-        {/* Ring 1 (Outer Ripple) */}
-        <div className="absolute h-24 w-24 rounded-full border-2 border-blue-500/20 animate-[ping_2s_ease-out_infinite]"></div>
-        
-        {/* Ring 2 (Inner Ripple - Delayed) */}
-        <div className="absolute h-24 w-24 rounded-full border border-blue-500/40 animate-[ping_2s_ease-out_infinite_300ms]"></div>
-        
-        {/* Glowing Background Glow */}
-        <div className="absolute h-16 w-16 bg-blue-500/20 rounded-full blur-xl animate-pulse"></div>
 
-        {/* Central Icon */}
-        <div className="relative z-10 p-4 bg-slate-900 rounded-2xl border border-slate-800 shadow-xl shadow-blue-900/20">
-          <Building2 size={40} className="text-blue-500 animate-pulse" />
-        </div>
-      </div>
+        <div className="absolute h-32 w-32 rounded-full border border-blue-500/10 animate-[ping_2.5s_ease-out_infinite]"></div>
+        
+    
+        <div className="absolute h-24 w-24 rounded-full border border-blue-500/30 animate-[ping_2.5s_ease-out_infinite_400ms]"></div>
+        
+    
+        <div className="absolute h-20 w-20 bg-blue-600/20 rounded-full blur-2xl animate-pulse"></div>
 
-      {/* Text Animation */}
-      <div className="flex flex-col items-center gap-2">
-        <h2 className="text-2xl font-bold tracking-tight text-white">
-          SnehSagar<span className="text-blue-500"> Society</span>
-        </h2>
         
-        {/* Custom Dot Loading */}
-        <div className="flex items-center gap-1.5 mt-1">
-          <div className="h-1.5 w-1.5 bg-slate-600 rounded-full animate-[bounce_1s_infinite_0ms]"></div>
-          <div className="h-1.5 w-1.5 bg-slate-500 rounded-full animate-[bounce_1s_infinite_200ms]"></div>
-          <div className="h-1.5 w-1.5 bg-blue-500 rounded-full animate-[bounce_1s_infinite_400ms]"></div>
+        <div className="relative z-10 p-5 bg-slate-900/50 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl shadow-blue-500/10 ring-1 ring-white/5">
+          <Building2 size={48} className="text-blue-500 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)] animate-pulse" />
         </div>
-        
-        <p className="text-xs text-slate-500 font-medium mt-2 uppercase tracking-widest">
-          Loading System
-        </p>
       </div>
     </div>
   );
