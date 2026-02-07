@@ -3,18 +3,16 @@ import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { 
   Users, 
-  CreditCard, 
   AlertCircle, 
   Activity, 
-  Search, 
   ArrowUpRight,
   Wallet,
   TrendingUp,
   CheckCircle2,
   IndianRupee,
-  Clock
+  Clock,
+  Loader2 // Spinner ke liye naya icon
 } from "lucide-react";
-
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -26,12 +24,15 @@ const AdminDashboard = () => {
     recentPayments: [],
   });
   
+  // 1. Loading state initialize karein
+  const [loading, setLoading] = useState(true);
 
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
+        setLoading(true); // Fetch shuru hone par loading true
         const config = {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -43,15 +44,29 @@ const AdminDashboard = () => {
         );
         setStats(data);
       } catch (err) {
-        console.error(err);
+        console.error("Error fetching stats:", err);
+      } finally {
+        // 2. Fetch khatam hone par loading false (chahe success ho ya error)
+        setLoading(false);
       }
     };
 
     if (user?.token) fetchStats();
   }, [user]);
 
+  // 3. Agar loading true hai toh spinner dikhayein
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center">
+        <Loader2 className="w-12 h-12 text-blue-500 animate-spin mb-4" />
+        <p className="text-slate-400 font-medium animate-pulse">
+          Fetching latest data...
+        </p>
+      </div>
+    );
+  }
+
   return (
-    // MAIN CONTAINER: Dark Slate Background
     <div className="min-h-screen bg-slate-950 p-6 md:p-8">
       <div className="max-w-7xl mx-auto space-y-8">
         
@@ -61,7 +76,7 @@ const AdminDashboard = () => {
             <h2 className="text-3xl font-bold text-white tracking-tight">
               Dashboard Overview
             </h2>
-            <p className="text-slate-400 mt-1">Welcome back, {user.name} 👋</p>
+            <p className="text-slate-400 mt-1">Welcome back, {user?.name} 👋</p>
           </div>
           
           <div className="flex items-center gap-3 bg-slate-900 px-4 py-2 rounded-xl shadow-sm border border-slate-800">
@@ -76,7 +91,7 @@ const AdminDashboard = () => {
       {/* Stats Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           
-          {/* Card 1: Total Received (Emerald/Dark Theme) */}
+          {/* Card 1: Total Received */}
           <div className="bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-800 relative overflow-hidden group hover:border-emerald-500/30 transition-all">
             <div className="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                <Wallet size={100} className="text-emerald-500" />
@@ -98,7 +113,7 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          {/* Card 2: Pending Dues (Rose/Dark Theme) */}
+          {/* Card 2: Pending Dues */}
           <div className="bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-800 relative overflow-hidden group hover:border-rose-500/30 transition-all">
             <div className="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                <AlertCircle size={100} className="text-rose-500" />
@@ -120,7 +135,7 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          {/* Card 3: Total Residents (Blue/Dark Theme) */}
+          {/* Card 3: Total Residents */}
           <div className="bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-800 relative overflow-hidden group hover:border-blue-500/30 transition-all">
              <div className="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                <Users size={100} className="text-blue-500" />
@@ -142,7 +157,7 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Recent Payments Section */}
+        {/* Recent Payments Table */}
         <div className="bg-slate-900 rounded-2xl shadow-sm border border-slate-800 overflow-hidden">
           <div className="p-6 border-b border-slate-800 flex justify-between items-center">
             <h4 className="font-bold text-xl text-white flex items-center gap-2">
@@ -185,8 +200,8 @@ const AdminDashboard = () => {
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center font-bold text-slate-200">
-                           <IndianRupee size={14} className="mr-1 text-slate-600"/>
-                           {pay.amount.toLocaleString()}
+                            <IndianRupee size={14} className="mr-1 text-slate-600"/>
+                            {pay.amount.toLocaleString()}
                         </div>
                       </td>
                       <td className="px-6 py-4 text-sm text-slate-500">
@@ -203,10 +218,10 @@ const AdminDashboard = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={5} className="px-6 py-16 text-center">
+                    <td colSpan={4} className="px-6 py-16 text-center">
                       <div className="flex flex-col items-center justify-center text-slate-600">
                         <div className="bg-slate-800 p-4 rounded-full mb-3 border border-slate-700">
-                           <Activity size={32} className="opacity-50" />
+                            <Activity size={32} className="opacity-50" />
                         </div>
                         <p>No recent transactions recorded</p>
                       </div>
@@ -222,4 +237,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default AdminDashboard; 

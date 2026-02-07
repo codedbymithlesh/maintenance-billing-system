@@ -3,16 +3,16 @@ import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 import { 
   PlusCircle, 
-  Search, 
-  Filter, 
-  X, 
   Calendar, 
   User, 
   IndianRupee,
   CheckCircle2,
   Clock,
-  Loader2
+  Loader2,
+  X,
+  Filter
 } from 'lucide-react';
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 const ManageBills = () => {
@@ -26,8 +26,9 @@ const ManageBills = () => {
   const [residents, setResidents] = useState([]);
   const [showModal, setShowModal] = useState(false);
   
-  // Fix: Button ke liye alag loading state banaya
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // States for Loading
+  const [isLoading, setIsLoading] = useState(true); // Initial Page Load
+  const [isSubmitting, setIsSubmitting] = useState(false); // Form Action
 
   const [formData, setFormData] = useState({
     residentId: '',
@@ -46,11 +47,14 @@ const ManageBills = () => {
 
   useEffect(() => {
     const loadData = async () => {
-      // Fix: Yaha se setIsLoading hata diya taki page load pe button effect na ho
       try {
+        setIsLoading(true);
+        // Dono APIs ko parallel fetch kar rahe hain
         await Promise.all([fetchBills(), fetchResidents()]);
       } catch (error) {
         console.error("Error loading data", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     loadData();
@@ -68,22 +72,31 @@ const ManageBills = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true); // Sirf form submit pe loading true hoga
+    setIsSubmitting(true);
     try {
       await axios.post(`${API_URL}/api/admin/bills`, formData, config);
       setShowModal(false);
-      fetchBills();
+      await fetchBills(); // Table update karne ke liye
       setFormData(prev => ({...prev, residentId: '', amount: '', dueDate: ''}));
     } catch (error) {
       console.error(error);
       alert("Failed to create bill");
     } finally {
-      setIsSubmitting(false); // Request khatam hone pe loading band
+      setIsSubmitting(false);
     }
   };
 
+  // 1. Full Page Loading Screen
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center">
+        <Loader2 className="w-12 h-12 text-blue-500 animate-spin mb-4" />
+        <p className="text-slate-400 font-medium animate-pulse">Loading Bills...</p>
+      </div>
+    );
+  }
+
   return (
-    // MAIN CONTAINER: Dark Slate Background
     <div className="min-h-screen bg-slate-950 p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
         
@@ -91,19 +104,19 @@ const ManageBills = () => {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div>
             <h2 className="text-3xl font-bold text-white tracking-tight">Manage Bills</h2>
-            <p className="text-slate-400 mt-1">Create and track maintenance</p>
+            <p className="text-slate-400 mt-1">Create and track maintenance payments</p>
           </div>
 
-            <button
-              onClick={() => setShowModal(true)}
-              className="bg-blue-600 text-white px-5 py-2.5 rounded-xl flex items-center gap-2 hover:bg-blue-700 transition-all shadow-lg shadow-blue-900/20 font-medium active:scale-95 border border-blue-500/50"
-            >
-              <PlusCircle size={20} /> 
-              <span>Create Bill</span>
-            </button>
+          <button
+            onClick={() => setShowModal(true)}
+            className="bg-blue-600 text-white px-5 py-2.5 rounded-xl flex items-center gap-2 hover:bg-blue-700 transition-all shadow-lg shadow-blue-900/20 font-medium active:scale-95 border border-blue-500/50"
+          >
+            <PlusCircle size={20} /> 
+            <span>Create Bill</span>
+          </button>
         </div>
 
-        {/* Table Container: Dark Slate with Border */}
+        {/* Table Section */}
         <div className="bg-slate-900 rounded-2xl shadow-sm border border-slate-800 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
@@ -132,31 +145,26 @@ const ManageBills = () => {
                           </span>
                         </div>
                       </td>
-
                       <td className="px-6 py-4">
                         <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-slate-800 text-slate-400 border border-slate-700">
                           {bill.residentId?.flatNumber}
                         </span>
                       </td>
-
                       <td className="px-6 py-4">
-                          <div className="flex items-center text-slate-200 font-bold">
-                             <span className="text-slate-500 mr-1">₹</span>
-                             {bill.amount.toLocaleString()}
-                          </div>
+                        <div className="flex items-center text-slate-200 font-bold">
+                           <span className="text-slate-500 mr-1">₹</span>
+                           {bill.amount.toLocaleString()}
+                        </div>
                       </td>
-
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2 text-sm text-slate-400">
                            <Calendar size={14} className="text-slate-600" />
                            {bill.month} {bill.year}
                         </div>
                       </td>
-
                       <td className="px-6 py-4 text-sm text-slate-500">
-                        {bill.dueDate ? new Date(bill.dueDate).toLocaleDateString() : '-'}
+                        {bill.dueDate ? new Date(bill.dueDate).toLocaleDateString("en-IN") : '-'}
                       </td>
-
                       <td className="px-6 py-4">
                         <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border ${
                           bill.status === "Paid"
@@ -186,37 +194,35 @@ const ManageBills = () => {
           </div>
         </div>
 
-        {/* Modal: Dark Theme */}
+        {/* Modal Section */}
         {showModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-all">
-            <div className="bg-slate-900 rounded-2xl shadow-2xl w-full max-w-lg transform transition-all scale-100 border border-slate-800">
-              
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+            <div className="bg-slate-900 rounded-2xl shadow-2xl w-full max-w-lg border border-slate-800 overflow-hidden">
               <div className="flex justify-between items-center p-6 border-b border-slate-800">
                 <h3 className="text-xl font-bold text-white">Generate New Bill</h3>
                 <button 
                   onClick={() => setShowModal(false)}
-                  className="p-2 hover:bg-slate-800 rounded-full text-slate-400 hover:text-white transition-colors"
+                  className="p-2 hover:bg-slate-800 rounded-full text-slate-400 transition-colors"
                 >
                   <X size={20} />
                 </button>
               </div>
 
               <form onSubmit={handleSubmit} className="p-6 space-y-5">
-                
                 <div className="space-y-1.5">
                   <label className="text-sm font-medium text-slate-300 flex items-center gap-2">
-                    <User size={16} className="text-blue-500"/> Select Resident
+                    <User size={16} className="text-blue-500"/> Resident
                   </label>
                   <select
                     required
-                    className="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                    className="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
                     value={formData.residentId}
                     onChange={(e) => setFormData({ ...formData, residentId: e.target.value })}
                   >
-                    <option value="" disabled className="text-slate-500">Choose a resident...</option>
+                    <option value="" disabled>Choose a resident...</option>
                     {residents.map((r) => (
                       <option key={r._id} value={r._id} className="bg-slate-900">
-                        {r.name} — Flat {r.flatNumber}
+                        {r.name} ({r.flatNumber})
                       </option>
                     ))}
                   </select>
@@ -228,39 +234,35 @@ const ManageBills = () => {
                   </label>
                   <input
                     type="number"
-                    placeholder="Enter amount"
                     required
-                    className="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                    className="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
                     value={formData.amount}
                     onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                   <div className="space-y-1.5">
+                  <div className="space-y-1.5">
                     <label className="text-sm font-medium text-slate-300">Month</label>
                     <select
-                      className="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 focus:ring-1 focus:ring-blue-500 outline-none"
                       value={formData.month}
                       onChange={(e) => setFormData({ ...formData, month: e.target.value })}
                     >
-                      {[
-                        'January', 'February', 'March', 'April', 'May', 'June',
-                        'July', 'August', 'September', 'October', 'November', 'December'
-                      ].map((m) => (
-                        <option key={m} value={m} className="bg-slate-900">{m}</option>
+                      {['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'].map(m => (
+                        <option key={m} value={m}>{m}</option>
                       ))}
                     </select>
-                   </div>
-                   <div className="space-y-1.5">
+                  </div>
+                  <div className="space-y-1.5">
                     <label className="text-sm font-medium text-slate-300">Year</label>
                     <input
                       type="number"
-                      className="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-200"
                       value={formData.year}
                       onChange={(e) => setFormData({ ...formData, year: e.target.value })}
                     />
-                   </div>
+                  </div>
                 </div>
 
                 <div className="space-y-1.5">
@@ -270,28 +272,26 @@ const ManageBills = () => {
                   <input
                     type="date"
                     required
-                    className="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all [color-scheme:dark]"
+                    className="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-200"
                     value={formData.dueDate}
                     onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
                   />
                 </div>
 
-                <div className="flex gap-3 pt-4">
-                  <button
-                    disabled={isSubmitting} // Use new state
-                    type="submit"
-                    className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 font-medium shadow-lg shadow-blue-900/20 transition-all flex justify-center items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 size={20} className="animate-spin" />
-                        <span>Generating...</span>
-                      </>
-                    ) : (
-                      <span>Generate</span>
-                    )}
-                  </button>
-                </div>
+                <button
+                  disabled={isSubmitting}
+                  type="submit"
+                  className="w-full py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 font-medium transition-all flex justify-center items-center gap-2 disabled:opacity-50"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 size={20} className="animate-spin" />
+                      <span>Creating Bill...</span>
+                    </>
+                  ) : (
+                    <span>Generate Bill</span>
+                  )}
+                </button>
               </form>
             </div>
           </div>
