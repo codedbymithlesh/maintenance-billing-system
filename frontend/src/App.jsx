@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigation } from 'react-router-dom';
 import { AuthContext, AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
@@ -9,6 +9,7 @@ import ManageBills from './pages/admin/ManageBills';
 import ResidentDashboard from './pages/client/ResidentDashboard';
 import Resident from './pages/admin/Resident';
 import NotFound from './pages/NotFound';
+import Loading from './pages/Loading'
 
 
 
@@ -21,6 +22,12 @@ const ProtectedRoute = ({ children, role }) => {
 
 const AppRoutes = () => {
   const { user } = useContext(AuthContext);
+
+  const navigation = useNavigation;
+
+  if(navigation.state === "loading"){
+    return <Loading />
+  };
 
   return (
     <Router>
