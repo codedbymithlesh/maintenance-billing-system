@@ -23,7 +23,7 @@ const ProtectedRoute = ({ children, role }) => {
 const AppRoutes = () => {
   const { user } = useContext(AuthContext);
 
-  const navigation = useNavigation;
+  // const navigation = useNavigation;
 
   // if(navigation.state === "loading"){
   //   return <Loading />
