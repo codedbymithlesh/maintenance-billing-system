@@ -18,6 +18,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   const handleLogout = () => {
+    setOpen(false);
     logout();
     navigate('/');
   };
