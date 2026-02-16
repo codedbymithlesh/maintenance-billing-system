@@ -57,12 +57,55 @@ const AdminDashboard = () => {
   // 3. Agar loading true hai toh spinner dikhayein
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center">
-        <Loader2 className="w-12 h-12 text-blue-500 animate-spin mb-4" />
-        <p className="text-slate-400 font-medium animate-pulse">
-          Fetching latest data...
-        </p>
+      <div className="min-h-screen bg-slate-950 p-6 md:p-8">
+      <div className="max-w-7xl mx-auto space-y-8">
+        {/* Header Skeleton */}
+        <div className="flex flex-col md:flex-row justify-between gap-4 animate-pulse">
+          <div className="space-y-2">
+            <div className="h-8 w-64 bg-slate-900 rounded-lg"></div>
+            <div className="h-4 w-40 bg-slate-900 rounded-lg"></div>
+          </div>
+          <div className="h-10 w-32 bg-slate-900 rounded-xl"></div>
+        </div>
+
+        {/* Stats Grid Skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-pulse">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="bg-slate-900 p-4 rounded-2xl border border-slate-800/50 space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="p-4 bg-slate-800 rounded-lg h-10 w-10"></div>
+                <div className="h-4 w-24 bg-slate-800 rounded"></div>
+              </div>
+              
+              <div className="h-10 w-32 bg-slate-800 rounded-md"></div>
+              <div className="h-6 w-28 bg-slate-800/50 rounded-full"></div>
+            </div>
+          ))}
+        </div>
+
+        {/* Table Skeleton */}
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 h-96 overflow-hidden animate-pulse">
+          <div className="p-6 border-b border-slate-800">
+            <div className="h-6 w-48 bg-slate-800 rounded"></div>
+          </div>
+          <div className="p-6 space-y-4">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="flex justify-between items-center border-b border-slate-800/50 pb-4">
+                <div className="flex gap-3">
+                  <div className="h-10 w-10 rounded-full bg-slate-800"></div>
+                  <div className="space-y-2">
+                    <div className="h-4 w-32 bg-slate-800 rounded"></div>
+                    <div className="h-3 w-20 bg-slate-800 rounded"></div>
+                  </div>
+                </div>
+                <div className="h-4 w-20 bg-slate-800 rounded"></div>
+                <div className="h-4 w-24 bg-slate-800 rounded"></div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
+    </div>
     );
   }
 

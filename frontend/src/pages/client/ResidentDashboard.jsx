@@ -67,18 +67,48 @@ const ResidentDashboard = () => {
  
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center">
-        <Loader2 className="w-12 h-12 text-blue-500 animate-spin mb-4" />
-        <p className="text-slate-400 font-medium animate-pulse">
-          Fetching your billing details...
-        </p>
+      <div className="min-h-screen bg-slate-950 p-6 md:p-8">
+      <div className="max-w-7xl mx-auto space-y-8 animate-pulse">
+        {/* Stats Grid Skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="h-32 bg-slate-900 rounded-2xl border border-slate-800/50 p-6 space-y-3">
+              <div className="h-4 w-24 bg-slate-800 rounded"></div>
+              <div className="h-8 w-32 bg-slate-800 rounded"></div>
+              <div className="h-3 w-20 bg-slate-800 rounded"></div>
+            </div>
+          ))}
+        </div>
+
+        {/* Tabs Skeleton */}
+        <div className="flex gap-6 border-b border-slate-800 pb-3">
+          <div className="h-4 w-24 bg-slate-900 rounded"></div>
+          <div className="h-4 w-24 bg-slate-900 rounded"></div>
+        </div>
+
+        {/* Bill Cards Skeleton */}
+        <div className="space-y-4">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="bg-slate-900 p-5 rounded-xl border border-slate-800 flex justify-between items-center">
+              <div className="flex gap-4">
+                <div className="h-12 w-12 bg-slate-800 rounded-xl"></div>
+                <div className="space-y-2">
+                  <div className="h-5 w-32 bg-slate-800 rounded"></div>
+                  <div className="h-4 w-48 bg-slate-800 rounded"></div>
+                </div>
+              </div>
+              <div className="h-10 w-24 bg-slate-800 rounded-lg"></div>
+            </div>
+          ))}
+        </div>
       </div>
+    </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-slate-950 p-6 md:p-8">
-      <div className="max-w-6xl mx-auto space-y-8">
+      <div className="max-w-7xl mx-auto space-y-8">
         
         {/* Stats Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
