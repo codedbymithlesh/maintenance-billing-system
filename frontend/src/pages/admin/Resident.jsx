@@ -10,7 +10,7 @@ import {
   Home, 
   Lock, 
   Users,
-  Loader2 // Spinner icon add kiya
+  Loader2 
 } from "lucide-react";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -22,14 +22,13 @@ const Resident = () => {
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState("");
   
-  // 1. Loading states initialize karein
-  const [isLoading, setIsLoading] = useState(true); // Initial load
-  const [isSubmitting, setIsSubmitting] = useState(false); // Form submission
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    password: "Resident@123", // Default password set kiya
+    password: "Resident@123",
     role: "resident",
     flatNumber: "",
     contact: "",
@@ -43,7 +42,6 @@ const Resident = () => {
 
   const fetchResidents = async () => {
     try {
-      // Data fetch karte waqt loading on (agar pehli baar ho raha ho)
       const { data } = await axios.get(
         `${API_URL}/api/admin/residents`,
         config
@@ -52,7 +50,7 @@ const Resident = () => {
     } catch (error) {
       console.error("Failed to fetch residents", error);
     } finally {
-      setIsLoading(false); // Fetch khatam hone par loading band
+      setIsLoading(false); 
     }
   };
 
@@ -60,12 +58,42 @@ const Resident = () => {
     fetchResidents();
   }, []);
 
-  const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    let { name, value } = e.target;
+
+    if (name === "flatNumber") {
+      value = value
+        .replace(/\s+/g, "") 
+        .replace(/([a-zA-Z])([0-9])/g, "$1-$2") 
+        .replace(/([0-9])([a-zA-Z])/g, "$1-$2")
+        .replace(/-+/g, "-") 
+        .toUpperCase(); 
+    }
+
+    setFormData({ ...formData, [name]: value });
+    
+    if (error) setError(""); 
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true); // Register button par loading shuru
+   
+    const { flatNumber } = formData;
+    const hasLetter = /[a-zA-Z]/.test(flatNumber); 
+    const hasNumber = /[0-9]/.test(flatNumber);    
+
+    if (!hasLetter && !hasNumber) {
+      setError("Please add both Wing and flat Number (e.g., A-101)");
+      return;
+    } else if (!hasLetter) {
+      setError("Please add a Wing.");
+      return;
+    } else if (!hasNumber) {
+      setError("Please add a flat number.");
+      return;
+    }
+
+    setIsSubmitting(true);
     setError("");
 
     try {
@@ -74,9 +102,8 @@ const Resident = () => {
       alert("Resident added successfully!");
 
       setShowModal(false);
-      fetchResidents(); // List refresh karein
+      fetchResidents(); 
 
-      // Form reset karein
       setFormData({
         name: "",
         email: "",
@@ -88,11 +115,10 @@ const Resident = () => {
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");
     } finally {
-      setIsSubmitting(false); // Button loading band
+      setIsSubmitting(false);
     }
   };
 
-  // 2. Full screen loader agar data fetch ho raha hai
   if (isLoading) {
     return (
       <div className="min-h-screen bg-slate-950 p-6 md:p-8">
@@ -147,7 +173,18 @@ const Resident = () => {
           </div>
           
           <button
-            onClick={() => setShowModal(true)}
+            onClick={() => {
+              setFormData({
+                name: "",
+                email: "",
+                contact: "",
+                role: "resident",
+                flatNumber: "",
+                password: "Resident@123",
+              });
+              setError("");
+              setShowModal(true);
+            }}
             className="bg-blue-600 text-white px-5 py-2.5 rounded-xl flex items-center gap-2 hover:bg-blue-700 transition-all shadow-lg shadow-blue-900/20 font-medium active:scale-95 border border-blue-500/50"
           >
             <PlusCircle size={20} /> 
@@ -233,7 +270,7 @@ const Resident = () => {
               </div>
 
               {error && (
-                <div className="mx-6 mt-4 p-3 bg-red-900/20 border border-red-900/50 text-red-400 rounded-lg text-sm flex items-center gap-2">
+                <div className="mx-6 mt-4 p-3 bg-red-900/20 border border-red-900/50 text-red-400 rounded-lg text-sm flex items-center gap-2 animate-pulse border-l-4 border-l-red-500">
                     <div className="h-1.5 w-1.5 rounded-full bg-red-500"></div>
                     {error}
                 </div>
@@ -273,6 +310,7 @@ const Resident = () => {
                             placeholder="Mobile Number"
                             required
                             maxLength={10}
+                            minLength={10}
                             className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 focus:ring-1 focus:ring-blue-500 outline-none"
                             onChange={handleChange}
                             value={formData.contact}
@@ -287,9 +325,9 @@ const Resident = () => {
                             name="flatNumber"
                             required
                             placeholder="Flat (e.g. A-101)"
-                            className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 outline-none"
+                            className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 outline-none focus:ring-1 focus:ring-blue-500"
                             onChange={handleChange}
-                            value={formData.flatNumber}
+                            value={formData.flatNumber} // Value directly state se judi hai
                         />
                     </div>
                     <div className="relative">
