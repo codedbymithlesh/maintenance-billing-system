@@ -9,7 +9,6 @@ import ManageBills from './pages/admin/ManageBills';
 import ResidentDashboard from './pages/client/ResidentDashboard';
 import Resident from './pages/admin/Resident';
 import NotFound from './pages/NotFound';
-import Loading from './pages/Loading'
 
 
 
@@ -22,16 +21,8 @@ const ProtectedRoute = ({ children, role }) => {
 
 const AppRoutes = () => {
   const { user } = useContext(AuthContext);
-
-  // const navigation = useNavigation;
-
-  // if(navigation.state === "loading"){
-  //   return <Loading />
-  // };
-
   return (
     <Router>
-      {/* <Loading /> */}
       <Navbar />
       <Routes>
         <Route path="/" element={<Login />} />

@@ -297,7 +297,7 @@ const Resident = () => {
                             type="email"
                             placeholder="Email Address"
                             required
-                            className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 focus:ring-1 focus:ring-blue-500 outline-none"
+                            className="w-full pl-10 pr-4 py-3 lowercase bg-slate-950 border border-slate-800 rounded-xl text-slate-200 focus:ring-1 focus:ring-blue-500 outline-none"
                             onChange={handleChange}
                             value={formData.email}
                         />
