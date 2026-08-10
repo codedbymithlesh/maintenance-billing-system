@@ -1,10 +1,11 @@
+```jsx
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { 
-  AlertCircle, 
-  Mail, 
-  Lock,  
+import {
+  AlertCircle,
+  Mail,
+  Lock,
   ShieldCheck,
   Zap,
   Loader2,
@@ -16,7 +17,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const { login, user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -35,46 +36,60 @@ const Login = () => {
       const userData = await login(email, password);
       navigate(userData.role === 'admin' ? '/admin' : '/resident');
     } catch (err) {
-      setError(err.response?.data?.message || 'Invalid credentials. Please try again.');
+      setError(
+        err.response?.data?.message ||
+        'Invalid credentials. Please try again.'
+      );
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    // MAIN CONTAINER: Dark Slate Background
     <div className="min-h-screen flex bg-slate-950 text-slate-200 font-sans">
-      
-      {/* LEFT SIDE: Solid Dark Panel with Right Border */}
+
+      {/* LEFT SIDE */}
       <div className="hidden lg:flex w-1/2 bg-slate-900 border-r border-slate-800 relative flex-col justify-between p-16">
-        
+
         {/* Brand Header */}
         <div className="relative z-10 animate-fade-in-down">
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 bg-blue-600 rounded-lg text-white">
               <Building2 size={28} />
             </div>
-            <span className="text-xl text-slate-100 font-bold tracking-widest uppercase">SnehSagar Society</span>
+
+            <span className="text-xl text-slate-100 font-bold tracking-widest uppercase">
+              SnehSagar Society
+            </span>
           </div>
-          
+
           <h1 className="text-5xl text-white font-extrabold leading-tight mb-6">
-            Simplifying <br/>
+            Simplifying <br />
             Community Living
           </h1>
+
           <p className="text-slate-400 text-lg max-w-md leading-relaxed">
-            Experience seamless society management. Pay bills, raise complaints, and stay connected with your neighbors.
+            Experience seamless society management. Pay bills, raise complaints,
+            and stay connected with your neighbors.
           </p>
         </div>
 
-        {/* Feature Cards: Darker with Borders */}
+        {/* Feature Cards */}
         <div className="relative z-10 grid gap-5 animate-fade-in-up delay-200">
+
           <div className="flex items-center gap-4 bg-slate-950 p-4 rounded-xl border border-slate-800 hover:border-blue-600/50 transition-colors cursor-default">
             <div className="p-3 bg-slate-900 rounded-lg text-blue-500 border border-slate-800">
               <ShieldCheck size={24} />
             </div>
+
             <div>
-              <h3 className="font-semibold text-slate-200">Secure Access</h3>
-              <p className="text-sm text-slate-500">Role-based secure login environment</p>
+              <h3 className="font-semibold text-slate-200">
+                Secure Access
+              </h3>
+
+              <p className="text-sm text-slate-500">
+                Role-based secure login environment
+              </p>
             </div>
           </div>
 
@@ -82,24 +97,138 @@ const Login = () => {
             <div className="p-3 bg-slate-900 rounded-lg text-blue-500 border border-slate-800">
               <Zap size={24} />
             </div>
+
             <div>
-              <h3 className="font-semibold text-slate-200">Fast & Reliable</h3>
-              <p className="text-sm text-slate-500">Optimized performance for all devices</p>
+              <h3 className="font-semibold text-slate-200">
+                Fast & Reliable
+              </h3>
+
+              <p className="text-sm text-slate-500">
+                Optimized performance for all devices
+              </p>
             </div>
           </div>
+
+          {/* ============================= */}
+          {/* DEMO LOGIN DETAILS - ADDED */}
+          {/* ============================= */}
+          <div className="bg-slate-950 p-5 rounded-xl border border-slate-800">
+
+            <div className="flex items-center gap-2 mb-4">
+              <Lock size={18} className="text-blue-500" />
+
+              <h3 className="font-semibold text-slate-200">
+                Demo Login Details
+              </h3>
+            </div>
+
+            <div className="space-y-3 text-sm">
+
+              {/* Admin */}
+              <div className="bg-slate-900 border border-slate-800 rounded-lg p-3">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-semibold text-blue-400">
+                    Admin
+                  </span>
+
+                  <span className="text-xs text-slate-500">
+                    ADMIN
+                  </span>
+                </div>
+
+                <p className="text-slate-400">
+                  Email:
+                  <span className="text-slate-200 ml-1">
+                    admin@gmail.com
+                  </span>
+                </p>
+
+                <p className="text-slate-400">
+                  Password:
+                  <span className="text-slate-200 ml-1">
+                    Admin@123
+                  </span>
+                </p>
+              </div>
+
+              {/* Resident 01 */}
+              <div className="bg-slate-900 border border-slate-800 rounded-lg p-3">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-semibold text-blue-400">
+                    Resident 01
+                  </span>
+
+                  <span className="text-xs text-slate-500">
+                    USER
+                  </span>
+                </div>
+
+                <p className="text-slate-400">
+                  Email:
+                  <span className="text-slate-200 ml-1">
+                    user01@gmail.com
+                  </span>
+                </p>
+
+                <p className="text-slate-400">
+                  Password:
+                  <span className="text-slate-200 ml-1">
+                    Resident@123
+                  </span>
+                </p>
+              </div>
+
+              {/* Resident 02 */}
+              <div className="bg-slate-900 border border-slate-800 rounded-lg p-3">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-semibold text-blue-400">
+                    Resident 02
+                  </span>
+
+                  <span className="text-xs text-slate-500">
+                    USER
+                  </span>
+                </div>
+
+                <p className="text-slate-400">
+                  Email:
+                  <span className="text-slate-200 ml-1">
+                    user02@gmail.com
+                  </span>
+                </p>
+
+                <p className="text-slate-400">
+                  Password:
+                  <span className="text-slate-200 ml-1">
+                    Resident@123
+                  </span>
+                </p>
+              </div>
+
+            </div>
+
+            <p className="text-xs text-slate-600 mt-4">
+              Use these credentials for demo/testing purposes.
+            </p>
+
+          </div>
+          {/* ============================= */}
+          {/* END DEMO LOGIN DETAILS */}
+          {/* ============================= */}
+
         </div>
 
+        {/* Copyright */}
         <div className="relative z-10 text-xs text-slate-600 font-medium">
-           &copy; {new Date().getFullYear()} SnehSagar Management System
+          &copy; {new Date().getFullYear()} SnehSagar Management System
         </div>
       </div>
 
-      {/* RIGHT SIDE: Login Form */}
+      {/* RIGHT SIDE: LOGIN FORM */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-12 bg-slate-950">
-        
-        {/* Card: Dark Slate, Solid Border */}
+
         <div className="max-w-md w-full animate-fade-in p-8 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl">
-          
+
           {/* Mobile Logo */}
           <div className="lg:hidden flex justify-center mb-8">
             <div className="inline-flex items-center justify-center h-14 w-14 rounded-xl bg-blue-600 text-white">
@@ -108,24 +237,46 @@ const Login = () => {
           </div>
 
           <div className="mb-10">
-            <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">Welcome back</h2>
-            <p className="text-slate-500 text-sm">Enter your credentials to access your account.</p>
+            <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">
+              Welcome back
+            </h2>
+
+            <p className="text-slate-500 text-sm">
+              Enter your credentials to access your account.
+            </p>
           </div>
 
+          {/* Error */}
           {error && (
             <div className="mb-6 bg-red-900/20 border border-red-900/50 text-red-400 px-4 py-3 rounded-xl text-sm flex items-start gap-2 animate-pulse">
-              <AlertCircle size={18} className="mt-0.5 shrink-0"/>
-              <span className="font-medium">{error}</span>
+
+              <AlertCircle
+                size={18}
+                className="mt-0.5 shrink-0"
+              />
+
+              <span className="font-medium">
+                {error}
+              </span>
+
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
+
+            {/* Email */}
             <div className="space-y-1.5">
-              <label className="text-sm font-semibold text-slate-300 ml-1">Email</label>
+
+              <label className="text-sm font-semibold text-slate-300 ml-1">
+                Email
+              </label>
+
               <div className="relative group">
+
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <Mail className="h-5 w-5 text-slate-500 group-focus-within:text-blue-500 transition-colors" />
                 </div>
+
                 <input
                   type="email"
                   placeholder="name@example.com"
@@ -134,17 +285,25 @@ const Login = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
+
               </div>
             </div>
 
+            {/* Password */}
             <div className="space-y-1.5">
+
               <div className="flex justify-between items-center ml-1">
-                <label className="text-sm font-semibold text-slate-300">Password</label>
+                <label className="text-sm font-semibold text-slate-300">
+                  Password
+                </label>
               </div>
+
               <div className="relative group">
+
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <Lock className="h-5 w-5 text-slate-500 group-focus-within:text-blue-500 transition-colors" />
                 </div>
+
                 <input
                   type="password"
                   placeholder="••••••••"
@@ -153,31 +312,46 @@ const Login = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+
               </div>
             </div>
 
-            <button 
-              type="submit" 
+            {/* Login Button */}
+            <button
+              type="submit"
               disabled={isLoading}
               className="w-full bg-blue-600 text-white py-3.5 rounded-xl font-bold hover:bg-blue-700 focus:ring-4 focus:ring-blue-900 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-all duration-200 transform active:scale-[0.98]"
             >
+
               {isLoading ? (
                 <>
-                  <Loader2 size={20} className="animate-spin" />
-                  <span>Signing in...</span>
+                  <Loader2
+                    size={20}
+                    className="animate-spin"
+                  />
+
+                  <span>
+                    Signing in...
+                  </span>
                 </>
               ) : (
                 <>
-                  <span>Sign In</span>
+                  <span>
+                    Sign In
+                  </span>
                 </>
               )}
+
             </button>
+
           </form>
-          
+
         </div>
       </div>
+
     </div>
   );
 };
 
 export default Login;
+```
